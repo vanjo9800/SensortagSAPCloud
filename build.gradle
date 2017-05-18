@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '25.0.0'
+
+    defaultConfig {
+        applicationId "com.example.ti.ble.sensortag"
+        minSdkVersion 18
+        targetSdkVersion 21
+    }
+
+    buildTypes {
+        release {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    packagingOptions {
+        exclude 'AUTHORS'
+    }
+}
+
+repositories {
+    maven {
+        url "https://repo.eclipse.org/content/repositories/paho-snapshots/"
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.neovisionaries:nv-websocket-client:2.2'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+}
+
+
