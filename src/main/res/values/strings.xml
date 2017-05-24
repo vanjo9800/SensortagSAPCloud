@@ -87,26 +87,24 @@
     <string name="oad_file_select_button">Browse</string>
     <string name="cloud_config_dialog_title">Cloud Configuration</string>
     <string name="cloud_config_dialog_cloud_service">Cloud service :</string>
-    <string name="cloud_config_dialog_username">Username :</string>
-    <string name="cloud_config_dialog_password">Password :</string>
-    <string name="cloud_config_dialog_device_id">Device id:</string>
-    <string name="cloud_config_dialog_cloud_broker_address">Broker Address :</string>
-    <string name="cloud_config_dialog_broker_port">Broker Port :</string>
-    <string name="cloud_config_dialog_publish_topic">Publish Topic :</string>
-    <string name="cloud_config_dialog_clean_session_checkbox_title">Clean session</string>
-    <string name="cloud_config_dialog_use_ssl_checkbox_title">Use SSL</string>
-    <string name="cloud_config_dialog_save_button_text">Save settings</string>
     <string name="cloud_config_dialog_host">Host Address</string>
+    <string name="cloud_config_dialog_port">Port</string>
+    <string name="cloud_config_dialog_username">Username</string>
+    <string name="cloud_config_dialog_password">Password</string>
+    <string name="cloud_config_dialog_accountID">Account ID</string>
     <string name="cloud_config_dialog_deviceID">Device ID</string>
     <string name="cloud_config_dialog_OAuth_token">OAuth Token</string>
     <string name="cloud_config_dialog_message_type">Message Type</string>
+    <string name="cloud_config_dialog_useSSL">Use SSL</string>
     <string name="cloud_config_dialog_fields">The cloud message type should contain a single timestamp property and the following double properties:
         gyro_x, gyro_y, gyro_z, compass_x, compass_y, compass_z, acc_x, acc_y, acc_z, humidity, object_temp, light, ambient_temp, air_pressure.</string>
+    <string name="cloud_config_dialog_save_button_text">Save settings</string>
     <string name="fw_entry_table_row_Title">Title</string>
     <string name="fw_entry_table_row_subtitle">Sub Title</string>
     <string-array name="cloud_config_dialog_cloud_services_array">
         <item>SAP Cloud HTTP</item>
         <item>SAP Cloud WebSocket</item>
         <item>SAP Cloud MQTT over WebSocket</item>
+        <item>SAP Cloud MQTT over TCP</item>
     </string-array>
 </resources>

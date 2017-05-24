@@ -49,6 +49,82 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/cloud_config_dialog_port"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/cloud_port_label"
+            android:layout_alignBottom="@+id/cloud_port"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cloud_port"
+            android:inputType="text"
+            android:layout_below="@+id/cloud_host"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@+id/cloud_messageType_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cloud_config_dialog_username"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/cloud_username_label"
+            android:layout_alignBottom="@+id/cloud_username"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cloud_username"
+            android:inputType="text"
+            android:layout_below="@+id/cloud_port"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@+id/cloud_messageType_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cloud_config_dialog_password"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/cloud_password_label"
+            android:layout_alignBottom="@+id/cloud_password"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cloud_password"
+            android:inputType="textPassword"
+            android:layout_below="@+id/cloud_username"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@+id/cloud_messageType_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cloud_config_dialog_accountID"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/cloud_accountID_label"
+            android:layout_alignBottom="@+id/cloud_accountID"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cloud_accountID"
+            android:inputType="text"
+            android:layout_below="@+id/cloud_password"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@+id/cloud_messageType_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/cloud_config_dialog_deviceID"
             android:layout_marginLeft="10dp"
             android:id="@+id/cloud_deviceID_label"
@@ -103,6 +179,14 @@
             android:inputType="text"
             android:layout_marginRight="10dp"
             android:layout_toEndOf="@+id/cloud_messageType_label" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cloud_config_dialog_useSSL"
+            android:id="@+id/cloud_useSSL"
+            android:layout_below="@+id/cloud_messageType"
+            android:layout_alignEnd="@+id/cloud_messageType" />
 
         <TextView
             android:text="@string/cloud_config_dialog_fields"

@@ -296,6 +296,18 @@ public class SAPCloudProfile extends GenericBluetoothProfile {
                 MqttPublishTopic = "iot/data/" + config.deviceID;
             }
 
+            if (config.service == 3) { //MQTT over TCP
+                if (config.useSSL) {
+                    url = "ssl://";
+                } else {
+                    url = "tcp://";
+                }
+                url += config.host + ":" + config.port;
+                username = config.username;
+                password = config.password;
+                MqttPublishTopic = "iot/data/iotmms" + config.accountID + "/v1/" + config.deviceID;
+            }
+
             try {
                 memPer = new MemoryPersistence();
                 Log.d("SAPCloudProfile", "Cloud Broker URL : " + url);
@@ -580,7 +592,7 @@ public class SAPCloudProfile extends GenericBluetoothProfile {
                             messages.put(data);
                         }
                         toSend.put("messages", messages);
-                        client.publish(MqttPublishTopic, toSend.toString().getBytes(), 0, false);
+                        client.publish(MqttPublishTopic, toSend.toString().getBytes(), 1, false);
                         try {
                             Thread.sleep(60);
                         } catch (Exception e) {
@@ -612,9 +624,14 @@ public class SAPCloudProfile extends GenericBluetoothProfile {
     class cloudConfig extends Object {
         public Integer service;
         public String host;
+        public Integer port;
+        public String username;
+        public String password;
+        public String accountID;
         public String deviceID;
         public String OAuthToken;
         public String messageType;
+        public Boolean useSSL;
 
         cloudConfig() {
 
@@ -626,9 +643,18 @@ public class SAPCloudProfile extends GenericBluetoothProfile {
             s = "Cloud configuration :\r\n";
             s += "Service : " + service + "\r\n";
             s += "Host : " + host + "\r\n";
+            if (port != null) {
+                s += "Port : " + port.toString() + "\r\n";
+            }
+            s += "Username : " + username + "\r\n";
+            s += "Password : " + password + "\r\n";
+            s += "Account ID : " + accountID + "\r\n";
             s += "Device ID: " + deviceID + "\r\n";
             s += "OAuth Token : " + OAuthToken + "\r\n";
             s += "Message Type : " + messageType + "\r\n";
+            if (useSSL != null) {
+                s += "Use SSL : " + useSSL.toString() + "\r\n";
+            }
             return s;
         }
 
@@ -639,9 +665,14 @@ public class SAPCloudProfile extends GenericBluetoothProfile {
         try {
             c.service = Integer.parseInt(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_SERVICE, this.context), 10);
             c.host = CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_HOST, this.context);
+            c.port = Integer.parseInt(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_PORT, this.context));
+            c.username = CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_USERNAME, this.context);
+            c.password = CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_PASSWORD, this.context);
+            c.accountID = CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_ACCOUNTID, this.context);
             c.deviceID = CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_DEVICEID, this.context);
             c.OAuthToken = CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_OAUTH_TOKEN, this.context);
             c.messageType = CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_MESSAGE_TYPE, this.context);
+            c.useSSL = Boolean.parseBoolean(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_SSL, this.context));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -652,8 +683,13 @@ public class SAPCloudProfile extends GenericBluetoothProfile {
     public void writeCloudConfigToPrefs(cloudConfig c) {
         CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_SERVICE, c.service.toString(), this.context);
         CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_HOST, c.host, this.context);
+        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_PORT, c.port.toString(), this.context);
+        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_USERNAME, c.username, this.context);
+        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_PASSWORD, c.password, this.context);
+        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_ACCOUNTID, c.accountID, this.context);
         CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_DEVICEID, c.deviceID, this.context);
         CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_OAUTH_TOKEN, c.OAuthToken, this.context);
         CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_MESSAGE_TYPE, c.messageType, this.context);
+        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_SSL, c.useSSL.toString(), this.context);
     }
 }

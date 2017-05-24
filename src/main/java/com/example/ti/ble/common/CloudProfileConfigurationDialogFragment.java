@@ -66,7 +66,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -82,9 +84,14 @@ public class CloudProfileConfigurationDialogFragment extends DialogFragment impl
 
     public final static String PREF_CLOUD_SERVICE = "cloud_service";
     public final static String PREF_CLOUD_HOST = "cloud_host";
+    public final static String PREF_CLOUD_PORT = "cloud_port";
+    public final static String PREF_CLOUD_USERNAME = "cloud_username";
+    public final static String PREF_CLOUD_PASSWORD = "cloud_password";
+    public final static String PREF_CLOUD_ACCOUNTID = "cloud_accountID";
     public final static String PREF_CLOUD_DEVICEID = "cloud_deviceID";
     public final static String PREF_CLOUD_OAUTH_TOKEN = "cloud_oauth_token";
     public final static String PREF_CLOUD_MESSAGE_TYPE = "cloud_message_type";
+    public final static String PREF_CLOUD_SSL = "cloud_useSSL";
 
     public final static String ACTION_CLOUD_CONFIG_WAS_UPDATED = "com.example.ti.ble.common.CloudProfileConfigurationDialogFragment.UPDATE";
 
@@ -111,9 +118,20 @@ public class CloudProfileConfigurationDialogFragment extends DialogFragment impl
                         Integer sel = ((Spinner) v.findViewById(R.id.cloud_spinner)).getSelectedItemPosition();
                         CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_SERVICE, sel.toString(), getActivity());
                         CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_HOST, ((EditText) v.findViewById(R.id.cloud_host)).getText().toString(), getActivity());
+                        CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_PORT, ((EditText) v.findViewById(R.id.cloud_port)).getText().toString(), getActivity());
+                        CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_USERNAME, ((EditText) v.findViewById(R.id.cloud_username)).getText().toString(), getActivity());
+                        CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_PASSWORD, ((EditText) v.findViewById(R.id.cloud_password)).getText().toString(), getActivity());
+                        CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_ACCOUNTID, ((EditText) v.findViewById(R.id.cloud_accountID)).getText().toString(), getActivity());
                         CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_DEVICEID, ((EditText) v.findViewById(R.id.cloud_deviceID)).getText().toString(), getActivity());
                         CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_OAUTH_TOKEN, ((EditText) v.findViewById(R.id.cloud_OAuth_token)).getText().toString(), getActivity());
                         CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_MESSAGE_TYPE, ((EditText) v.findViewById(R.id.cloud_messageType)).getText().toString(), getActivity());
+
+                        boolean useSSL = ((CheckBox) v.findViewById(R.id.cloud_useSSL)).isChecked();
+                        String useSSLString;
+                        if (useSSL) {
+                            useSSLString = "true";
+                        } else useSSLString = "false";
+                        CloudProfileConfigurationDialogFragment.setCloudPref(PREF_CLOUD_SSL, useSSLString, getActivity());
 
                         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                         Map<String, ?> keys = prefs.getAll();
@@ -151,11 +169,47 @@ public class CloudProfileConfigurationDialogFragment extends DialogFragment impl
 
     }
 
-    public void enterHost(String Host) {
+    public void enterHost(String host) {
         TextView t = (TextView) v.findViewById(R.id.cloud_host_label);
         EditText e = (EditText) v.findViewById(R.id.cloud_host);
         e.setEnabled(true);
-        e.setText(Host);
+        e.setText(host);
+        t.setAlpha(1.0f);
+        e.setAlpha(1.0f);
+    }
+
+    public void enterPort(String port) {
+        TextView t = (TextView) v.findViewById(R.id.cloud_port_label);
+        EditText e = (EditText) v.findViewById(R.id.cloud_port);
+        e.setEnabled(true);
+        e.setText(port);
+        t.setAlpha(1.0f);
+        e.setAlpha(1.0f);
+    }
+
+    public void enterUsername(String username) {
+        TextView t = (TextView) v.findViewById(R.id.cloud_username_label);
+        EditText e = (EditText) v.findViewById(R.id.cloud_username);
+        e.setEnabled(true);
+        e.setText(username);
+        t.setAlpha(1.0f);
+        e.setAlpha(1.0f);
+    }
+
+    public void enterPassword(String password) {
+        TextView t = (TextView) v.findViewById(R.id.cloud_password_label);
+        EditText e = (EditText) v.findViewById(R.id.cloud_password);
+        e.setEnabled(true);
+        e.setText(password);
+        t.setAlpha(1.0f);
+        e.setAlpha(1.0f);
+    }
+
+    public void enterAccountID(String accountID) {
+        TextView t = (TextView) v.findViewById(R.id.cloud_accountID_label);
+        EditText e = (EditText) v.findViewById(R.id.cloud_accountID);
+        e.setEnabled(true);
+        e.setText(accountID);
         t.setAlpha(1.0f);
         e.setAlpha(1.0f);
     }
@@ -187,12 +241,84 @@ public class CloudProfileConfigurationDialogFragment extends DialogFragment impl
         e.setAlpha(1.0f);
     }
 
+    public void enterUseSSL(boolean useSSL) {
+        CheckBox c = (CheckBox) v.findViewById(R.id.cloud_useSSL);
+        c.setChecked(useSSL);
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d("CloudProfileConfig", "onItemSelected :" + position);
         enterHost(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_HOST, getActivity()));
+        if (position == 3) {
+            ((TextView) v.findViewById(R.id.cloud_port_label)).setVisibility(View.VISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_port)).setVisibility(View.VISIBLE);
+            enterPort(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_PORT, getActivity()));
+
+            ((TextView) v.findViewById(R.id.cloud_username_label)).setVisibility(View.VISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_username)).setVisibility(View.VISIBLE);
+            enterUsername(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_USERNAME, getActivity()));
+
+            ((TextView) v.findViewById(R.id.cloud_password_label)).setVisibility(View.VISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_password)).setVisibility(View.VISIBLE);
+            enterPassword(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_PASSWORD, getActivity()));
+
+            ((TextView) v.findViewById(R.id.cloud_accountID_label)).setVisibility(View.VISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_accountID)).setVisibility(View.VISIBLE);
+            enterAccountID(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_ACCOUNTID, getActivity()));
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ((EditText) v.findViewById(R.id.cloud_deviceID)).getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.cloud_accountID);
+
+            ((TextView) v.findViewById(R.id.cloud_OAuth_token_label)).setVisibility(View.INVISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_OAuth_token)).setVisibility(View.INVISIBLE);
+
+            params = (RelativeLayout.LayoutParams) ((EditText) v.findViewById(R.id.cloud_messageType)).getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.cloud_deviceID);
+
+            ((CheckBox) v.findViewById(R.id.cloud_useSSL)).setVisibility(View.VISIBLE);
+            Boolean useSSL;
+            try {
+                useSSL = Boolean.parseBoolean(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_SSL, getActivity()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                useSSL = false;
+            }
+            enterUseSSL(useSSL);
+
+            params = (RelativeLayout.LayoutParams) ((TextView) v.findViewById(R.id.cloudInfo)).getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.cloud_useSSL);
+
+        } else {
+            ((TextView) v.findViewById(R.id.cloud_port_label)).setVisibility(View.INVISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_port)).setVisibility(View.INVISIBLE);
+
+            ((TextView) v.findViewById(R.id.cloud_username_label)).setVisibility(View.INVISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_username)).setVisibility(View.INVISIBLE);
+
+            ((TextView) v.findViewById(R.id.cloud_password_label)).setVisibility(View.INVISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_password)).setVisibility(View.INVISIBLE);
+
+            ((TextView) v.findViewById(R.id.cloud_accountID_label)).setVisibility(View.INVISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_accountID)).setVisibility(View.INVISIBLE);
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ((EditText) v.findViewById(R.id.cloud_deviceID)).getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.cloud_host);
+
+            ((TextView) v.findViewById(R.id.cloud_OAuth_token_label)).setVisibility(View.VISIBLE);
+            ((EditText) v.findViewById(R.id.cloud_OAuth_token)).setVisibility(View.VISIBLE);
+            enterOAuthToken(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_OAUTH_TOKEN, getActivity()));
+
+            params = (RelativeLayout.LayoutParams) ((EditText) v.findViewById(R.id.cloud_messageType)).getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.cloud_OAuth_token);
+
+            ((CheckBox) v.findViewById(R.id.cloud_useSSL)).setVisibility(View.INVISIBLE);
+
+            params = (RelativeLayout.LayoutParams) ((TextView) v.findViewById(R.id.cloudInfo)).getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.cloud_messageType);
+
+        }
         enterDeviceID(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_DEVICEID, getActivity()));
-        enterOAuthToken(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_OAUTH_TOKEN, getActivity()));
         enterMessageType(CloudProfileConfigurationDialogFragment.retrieveCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_MESSAGE_TYPE, getActivity()));
     }
 
